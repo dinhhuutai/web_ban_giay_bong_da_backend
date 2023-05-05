@@ -1,0 +1,66 @@
+POST http://localhost:5000/api/user/register
+Content-Type: application/json
+
+{
+    "fullname": "Dinh Huu Tai",
+    "role": "admin",
+    "username": "tai",
+    "password": "31072002",
+    "phone": "0896461474",
+    "address": "Dong Nai"
+}
+
+###
+POST http://localhost:5000/api/user/login
+Content-Type: application/json
+
+{
+    "username": "0923044965",
+    "password": "31072002"
+}
+
+###
+POST http://localhost:5000/api/admin/product/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDRlMDVkMGJmZjU4MGRkODA4MWU1YTIiLCJpYXQiOjE2ODI5Mjg2NzR9.AfwAJANHjbpFEfNsSbQegI5nUlCV7sMhi6stSpEu5ic
+
+{
+    "name": "product6",
+    "price": "100000",
+    "idCategory": "644f2b4dcc38d55ceeabc248",
+    "idTrademark": "644f417f3ae3177d75293f1e",
+    "idColor": "644f509a0d5a1ae82e0692ae",
+    "isNew": true,
+    "discount": "10",
+    "description": "ko"
+}
+
+###
+GET http://localhost:5000/api/admin/product
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDRlMDVkMGJmZjU4MGRkODA4MWU1YTIiLCJpYXQiOjE2ODI5Mjg2NzR9.AfwAJANHjbpFEfNsSbQegI5nUlCV7sMhi6stSpEu5ic
+
+
+###
+PUT http://localhost:5000/api/admin/product/644fa36c48d46ec16ca5d512
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDRlMDVkMGJmZjU4MGRkODA4MWU1YTIiLCJpYXQiOjE2ODI5Mjg2NzR9.AfwAJANHjbpFEfNsSbQegI5nUlCV7sMhi6stSpEu5ic
+
+{
+    "name": "product5",
+    "price": "100000",
+    "idCategory": "644f2b4dcc38d55ceeabc248",
+    "idTrademark": "644f417f3ae3177d75293f1e",
+    "idColor": "644f509a0d5a1ae82e0692ae",
+    "isNew": true,
+    "discount": "10",
+    "description": "ko"
+}
+
+
+###
+DELETE http://localhost:5000/api/admin/product/644fa3b348d46ec16ca5d51e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDRlMDVkMGJmZjU4MGRkODA4MWU1YTIiLCJpYXQiOjE2ODI5Mjg2NzR9.AfwAJANHjbpFEfNsSbQegI5nUlCV7sMhi6stSpEu5ic
+
+
+###
+GET http://localhost:5000/api/admin/category
