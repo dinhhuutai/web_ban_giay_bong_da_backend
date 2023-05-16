@@ -124,6 +124,10 @@ class ProductAdminController {
             isNew,
             discount,
             description,
+            imageOld,
+            thumbnail1Old,
+            thumbnail2Old,
+            thumbnail3Old,
         } = req.body;
 
         // Simple validation
@@ -164,6 +168,20 @@ class ProductAdminController {
             if(!updatedProduct){
                 return res.status(401).json({success: false, message: 'Product not found or user not authorised'});
             }
+            
+            if(imageOld){
+                const filename = stringImage(imageOld);
+                cloudinary.uploader.destroy(filename);
+    
+                const filename1 = stringImage(thumbnail1Old);
+                cloudinary.uploader.destroy(filename1);
+    
+                const filename2 = stringImage(thumbnail2Old);
+                cloudinary.uploader.destroy(filename2);
+    
+                const filename3 = stringImage(thumbnail3Old);
+                cloudinary.uploader.destroy(filename3);
+            }
 
             res.json({success: true, message: 'Excellent progress!', product: updatedProduct});
 
@@ -174,13 +192,26 @@ class ProductAdminController {
 
     }
 
-    // [DELETE] /api/admin/product/:id
+    // [DELETE] /api/admin/product/delete
     async delete(req, res, next) {
 
         try {
-            const productDeleteCondition = {_id: req.params.id};
 
-            const deletedProduct = await Product.findOneAndDelete(productDeleteCondition);
+            const {listId} = req.body;
+
+            const deletedProduct = listId.map(async id => {
+
+                const dataProductById = await Product.findById(id);
+
+                const productDelete = await Product.findOneAndDelete(id);
+
+                if(productDelete){
+                    dataProductById.image.map(async value => {
+                        const filename = await stringImage(value);
+                        await cloudinary.uploader.destroy(filename);
+                    })
+                }
+            })
 
             if(!deletedProduct){
                 return res.status(401).json({success: false, message: 'Product not found or user not authorised'});

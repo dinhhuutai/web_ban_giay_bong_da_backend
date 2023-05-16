@@ -7,6 +7,6 @@ const uploadCloud = require('../../middlewares/uploader');
 router.get("/", verifyToken, productAdminController.show);
 router.post("/create", verifyToken, productAdminController.create);
 router.put("/:id", verifyToken, productAdminController.update);
-router.delete("/:id", verifyToken, productAdminController.delete);
+router.post("/delete", verifyToken, productAdminController.delete);
 
 module.exports = router;
