@@ -11,12 +11,18 @@ const UserSchema = new Schema({
     email: {type: String},
     address: {type: String, required: true},
     sex: {type: String},
-    birth: {type: String},
-    avatar: {type: String, required: true},
+    birth: {type: Date},
+    avatar: {type: Array},
+    cart: [{
+        idProduct: {type: Schema.Types.ObjectId, ref: 'products'},
+        quantity: {type: Number},
+        idSize: {type: Schema.Types.ObjectId, ref: 'sizes'},
+    }],
     createBy: {type: String},
     updateBy: {type: String},
     createAt: {type: Date},
     updateAt: {type: Date},
+    spend: {type: Number, default: 0},
 });
 
 

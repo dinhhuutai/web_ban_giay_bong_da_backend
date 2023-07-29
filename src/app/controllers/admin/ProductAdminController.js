@@ -1,4 +1,6 @@
 const Product = require("../../models/Product");
+const ProductSize = require("../../models/ProductSize");
+const Size = require("../../models/Size");
 
 
 const stringImage = require('../../../utils/sliceStringImage');
@@ -43,7 +45,7 @@ class ProductAdminController {
             thumbnail3,
             name,
             price,
-            size,
+            idSize,
             quantity,
             idCategory,
             idTrademark,
@@ -65,21 +67,30 @@ class ProductAdminController {
             const newProduct = new Product({
                 name,
                 price,
-                size,
-                quantity,
                 idCategory,
                 idTrademark,
                 idColor,
+                totalQuantity: quantity,
                 image: [image, thumbnail1, thumbnail2, thumbnail3],
                 isNew,
                 discount,
                 description,
+                quantitySold: 0,
                 createAt: Date(Date.now()),
                 createBy: req.userId,
                 updateAt: Date(Date.now()),
             })
-
             await newProduct.save();
+
+            const newProductSize = new ProductSize({
+                idProduct: newProduct._id,
+                idSize,
+                quantity,
+                createAt: Date(Date.now()),
+                createBy: req.userId,
+                updateAt: Date(Date.now()),
+            });
+            await newProductSize.save();
 
 
             res.status(200).json({success: true, message: 'Add product success', product: newProduct});
@@ -116,8 +127,6 @@ class ProductAdminController {
             thumbnail3,
             name,
             price,
-            size,
-            quantity,
             idCategory,
             idTrademark,
             idColor,
@@ -147,8 +156,6 @@ class ProductAdminController {
             let updatedProduct = {
                 name,
                 price,
-                size,
-                quantity,
                 idCategory,
                 idTrademark,
                 idColor,
@@ -210,6 +217,8 @@ class ProductAdminController {
                         const filename = await stringImage(value);
                         await cloudinary.uploader.destroy(filename);
                     })
+
+                    await ProductSize.deleteMany({idProduct: id});
                 }
             })
 

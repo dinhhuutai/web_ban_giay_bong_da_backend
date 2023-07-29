@@ -17,7 +17,6 @@ const storage = new CloudinaryStorage({
   }
 });
 
-console.log(storage);
 
 const uploadCloud = multer({ storage });
 
